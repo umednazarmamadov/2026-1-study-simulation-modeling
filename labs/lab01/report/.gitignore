@@ -1,3 +1,6 @@
 /.quarto/
 /_output/
 **/*.quarto_ipynb
+*.tex
+*_files/
+*.Zone.Identifier
