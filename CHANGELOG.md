@@ -1,4 +1,5 @@
-# Changelog
-## [1.0.0] - $(date +%Y-%m-%d)
+#Changelog
+## [2.0.0] - 2026-03-16
 ### Features
-- make course structure 
+- add SIR model
+- add Lotka-Volterra model
