@@ -1,8 +1,4 @@
-# # Экспоненциальный рост
-# Цель: Исследовать решение уравнения du/dt = α*u.
-#
-# ## Инициализация проекта и загрузка пакетов
-using DrWatson
+using DrWatson 
 @quickactivate "project"
 using DifferentialEquations
 using Plots
@@ -13,22 +9,22 @@ script_name = splitext(basename(PROGRAM_FILE))[1]
 mkpath(plotsdir(script_name))
 mkpath(datadir(script_name))
 
-# ## Определение модели
 function exponential_growth!(du, u, p, t)
-    α = p
-    du[1] = α * u[1]
+    a = p
+    du[1] = a * u[1]
 end
 
 u0 = [1.0]
-α = 0.3
+a = 0.3
 tspan = (0.0, 10.0)
-prob = ODEProblem(exponential_growth!, u0, tspan, α)
+prob = ODEProblem(exponential_growth!, u0, tspan, a)
 sol = solve(prob, Tsit5(), saveat=0.1)
 
 plot(sol, label="u(t)", xlabel="Время t", ylabel="Популяция u",
-    title="Экспоненциальный рост (α = $α)", lw=2, legend=:topleft)
-savefig(plotsdir(script_name, "exponential_growth_α=$α.png"))
+    title="Экспоненциальный рост (a = $a)", lw=2, legend=:topleft)
+savefig(plotsdir(script_name, "exponential_growth_a=$a.png"))
 
 df = DataFrame(t=sol.t, u=first.(sol.u))
 println("Первые 5 строк результатов:")
 println(first(df, 5))
+

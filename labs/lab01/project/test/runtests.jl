@@ -1,5 +1,5 @@
 using DrWatson, Test
-@quickactivate "ptoject"
+@quickactivate "project"
 
 # Here you include files using `srcdir`
 # include(srcdir("file.jl"))
@@ -8,7 +8,7 @@ using DrWatson, Test
 println("Starting tests")
 ti = time()
 
-@testset "ptoject tests" begin
+@testset "project tests" begin
     @test 1 == 1
 end
 
