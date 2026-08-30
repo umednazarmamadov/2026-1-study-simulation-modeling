@@ -1,6 +1,4 @@
 #!/usr/bin/env julia
-# tangle.jl - Генератор отчетов из Literate-скриптов
-
 using DrWatson
 @quickactivate
 using Literate
@@ -25,18 +23,18 @@ julia tangle.jl scripts/lab1.jl
 
     scripts_dir = scriptsdir(script_name)
     Literate.script(script_path, scripts_dir; credit=false)
-    println(" ✓ Чистый скрипт: $(scripts_dir)/$(script_name).jl")
+    println(" Чистый скрипт: $(scripts_dir)/$(script_name).jl")
 
     quarto_dir = projectdir("markdown", script_name)
     Literate.markdown(script_path, quarto_dir;
         flavor=Literate.QuartoFlavor(),
         name=script_name, credit=false)
-    println(" ✓ Quarto: $(quarto_dir)/$(script_name).qmd")
+    println(" Quarto: $(quarto_dir)/$(script_name).qmd")
 
     notebooks_dir = projectdir("notebooks", script_name)
     Literate.notebook(script_path, notebooks_dir, name=script_name;
         execute=false, credit=false)
-    println(" ✓ Notebook: $(notebooks_dir)/$(script_name).ipynb")
+    println(" Notebook: $(notebooks_dir)/$(script_name).ipynb")
 
     println("\nГотово! Все файлы созданы.")
 end
