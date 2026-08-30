@@ -1,5 +1,6 @@
-#Changelog
-## [2.0.0] - 2026-03-16
+# Changelog
+
+## [1.0.0] - 2026-03-18
+
 ### Features
-- add SIR model
-- add Lotka-Volterra model
+- add exponential growth model
