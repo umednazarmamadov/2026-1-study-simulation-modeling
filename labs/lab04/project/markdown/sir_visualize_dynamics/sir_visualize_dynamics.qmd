@@ -1,0 +1,22 @@
+```{julia}
+using DrWatson
+@quickactivate "project"
+using DataFrames, Plots, CSV
+
+df = CSV.read(datadir("beta_scan_all.csv"), DataFrame)
+
+p1 = plot(df.beta, df.peak, label = "Пик", xlabel = "beta", ylabel = "Доля инфицированных")
+plot!(p1, df.beta, df.final_inf, label = "Конечная")
+
+p2 = plot(df.beta, df.deaths, xlabel = "beta", ylabel = "Число умерших", legend = false)
+
+p3 = plot(df.beta, df.final_rec, xlabel = "beta", ylabel = "Доля выздоровевших", legend = false)
+
+plot(p1, p2, p3, layout = (3, 1), size = (800, 900))
+
+mkpath(plotsdir())
+savefig(plotsdir("comprehensive_analysis.png"))
+
+println("Готово! Сводный график сохранён.")
+```
+
