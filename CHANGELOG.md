@@ -1,9 +1,10 @@
-# Changelog
+# Changelog 
 
-## [2.0.0] - 2026-03-20
+## [3.0.0] - 2026-02-25
 
 ### Features
 - add exponential growth model (lab01)
 - add SIR model (lab02)
-- add lotka-volterra (lab02)
-- add reports and presentation for lab01, lab02
+- add Lotka-Volterra model (lab02)
+- add Daisyworld agent-based model (lab03)
+- add reports and presentation for lab01, lab02, lab03
