@@ -1,7 +1,3 @@
-# # Модель SIR
-# Цель: Исследовать распространение инфекции методом SIR.
-#
-# ## Инициализация проекта и загрузка пакетов
 using DrWatson
 @quickactivate "project"
 using DifferentialEquations
@@ -13,39 +9,35 @@ script_name = splitext(basename(PROGRAM_FILE))[1]
 mkpath(plotsdir(script_name))
 mkpath(datadir(script_name))
 
-# ## Определение модели SIR
 function sir_model!(du, u, p, t)
     S, I, R = u
-    β, γ, N = p
-    du[1] = -β * S * I / N
-    du[2] =  β * S * I / N - γ * I
-    du[3] =  γ * I
+    beta, gamma, N = p
+    du[1] = -beta * S * I / N
+    du[2] =  beta * S * I / N - gamma * I
+    du[3] =  gamma * I
 end
 
-# ## Параметры модели
 N = 1000.0
 I0 = 1.0
 S0 = N - I0
 R0 = 0.0
 u0 = [S0, I0, R0]
-β = 0.3
-γ = 0.1
+beta = 0.3
+gamma = 0.1
 tspan = (0.0, 160.0)
-p = [β, γ, N]
+p = [beta, gamma, N]
 
-# ## Решение системы
 prob = ODEProblem(sir_model!, u0, tspan, p)
 sol = solve(prob, Tsit5(), saveat=1.0)
 
-# ## Визуализация
 plot(sol.t, [first.(sol.u), getindex.(sol.u, 2), last.(sol.u)],
-    label=["S (восприимчивые)" "I (заражённые)" "R (выздоровевшие)"],
+    label=["S (восприимчивые)" "I (зараженные)" "R (выздоровевшие)"],
     xlabel="Время (дни)", ylabel="Число людей",
-    title="Модель SIR (β=$β, γ=$γ)",
+    title="Модель SIR (beta=$beta, gamma=$gamma)",
     lw=2, legend=:right)
 savefig(plotsdir(script_name, "sir_model.png"))
 
-df = DataFrame(t=sol.t, S=first.(sol.u), I=getindex.(sol.u,2), R=last.(sol.u))
+df = DataFrame(t=sol.t, S=first.(sol.u), I=getindex.(sol.u, 2), R=last.(sol.u))
 println("Первые 5 строк:")
 println(first(df, 5))
 @save datadir(script_name, "sir_results.jld2") df

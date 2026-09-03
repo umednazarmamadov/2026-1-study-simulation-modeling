@@ -11,18 +11,18 @@ mkpath(datadir(script_name))
 
 function lotka_volterra!(du, u, p, t)
     x, y = u
-    α, β, γ, δ = p
-    du[1] = α * x - β * x * y
-    du[2] = δ * x * y - γ * y
+    alpha, beta, gamma, delta = p
+    du[1] = alpha * x - beta * x * y
+    du[2] = delta * x * y - gamma * y
 end
 
-α = 0.1
-β = 0.02
-γ = 0.4
-δ = 0.01
+alpha = 0.1
+beta = 0.02
+gamma = 0.4
+delta = 0.01
 u0 = [40.0, 9.0]
 tspan = (0.0, 200.0)
-p = [α, β, γ, δ]
+p = [alpha, beta, gamma, delta]
 
 prob = ODEProblem(lotka_volterra!, u0, tspan, p)
 sol = solve(prob, Tsit5(), saveat=0.5)
