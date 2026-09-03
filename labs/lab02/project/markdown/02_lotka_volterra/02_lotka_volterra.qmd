@@ -1,0 +1,44 @@
+```{julia}
+using DrWatson
+@quickactivate "project"
+using DifferentialEquations
+using Plots
+using DataFrames
+using JLD2
+
+script_name = splitext(basename(PROGRAM_FILE))[1]
+mkpath(plotsdir(script_name))
+mkpath(datadir(script_name))
+
+function lotka_volterra!(du, u, p, t)
+    x, y = u
+    alpha, beta, gamma, delta = p
+    du[1] = alpha * x - beta * x * y
+    du[2] = delta * x * y - gamma * y
+end
+
+alpha = 0.1
+beta = 0.02
+gamma = 0.4
+delta = 0.01
+u0 = [40.0, 9.0]
+tspan = (0.0, 200.0)
+p = [alpha, beta, gamma, delta]
+
+prob = ODEProblem(lotka_volterra!, u0, tspan, p)
+sol = solve(prob, Tsit5(), saveat=0.5)
+
+plot(sol.t, [first.(sol.u), last.(sol.u)],
+    label=["Жертвы" "Хищники"],
+    xlabel="Время", ylabel="Популяция",
+    title="Модель Лотки-Вольтерры",
+    lw=2, legend=:topright)
+savefig(plotsdir(script_name, "lotka_volterra.png"))
+
+df = DataFrame(t=sol.t, prey=first.(sol.u), predator=last.(sol.u))
+println("Первые 5 строк:")
+println(first(df, 5))
+@save datadir(script_name, "lotka_volterra_results.jld2") df
+println("Готово!")
+```
+
