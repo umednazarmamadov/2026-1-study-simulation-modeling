@@ -11,8 +11,8 @@ author:
       address: ул. Миклухо-Маклая, д. 6
 
 ## Title
-title: "Лабораторная работа №3"
-subtitle: "Агентное моделирование: модель Daisyworld"
+title: "Лабораторная работа №8"
+subtitle: "Реализация модели SIR в дискретно-событийном подходе"
 license: CC BY
 date: today
 date-format: 2026-09-02
