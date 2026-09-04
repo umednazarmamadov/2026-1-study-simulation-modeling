@@ -1,0 +1,46 @@
+```{julia}
+using DrWatson
+@quickactivate "project"
+include(srcdir("sir_model.jl"))
+using Random, StatsPlots, DataFrames
+
+tmax = 40.0
+u0 = [990, 10, 0]
+
+betas = [0.03, 0.05, 0.07]
+
+results_summary = DataFrame(beta = Float64[], peak_I = Int64[], peak_time = Float64[], final_R = Int64[])
+
+plt = plot(xlab = "Время", ylab = "Инфицированные I", title = "Чувствительность к beta")
+
+for beta in betas
+    Random.seed!(1234)
+    p = [beta, 10.0, 0.25]
+    m = MakeSIRModel(u0, p)
+    activate(m)
+    sir_run(m, tmax)
+    data = out(m)
+
+    peak_I = maximum(data.I)
+    peak_idx = argmax(data.I)
+    peak_time = data.t[peak_idx]
+    final_R = data.R[end]
+
+    push!(results_summary, (beta, peak_I, peak_time, final_R))
+
+    plot!(plt, data.t, data.I, label = "beta = $beta")
+end
+
+mkpath(plotsdir())
+mkpath(datadir())
+
+savefig(plt, plotsdir("sir_sensitivity_beta.png"))
+
+println(results_summary)
+CSV_path = datadir("sensitivity_summary.csv")
+using CSV
+CSV.write(CSV_path, results_summary)
+
+println("Готово! Результаты анализа чувствительности сохранены.")
+```
+
